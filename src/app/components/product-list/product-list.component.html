@@ -1,0 +1,39 @@
+<div class="main-container">
+  <h2>Banco</h2>
+  <div class="container-body">
+    <div class="contaider-filter">
+      <div class="container-input">
+        <input type="text" [(ngModel)]="searchProduct" placeholder="Search..." class="form-input"/>
+        <!-- <input type="text" [(ngModel)]="searchProduct" placeholder="Search..." (input)="filterProducts()" class="form-input"/> -->
+      </div>
+      <div class="container-button">
+        <input type="button" placeholder="Agregar" class="btn-add-product"/>
+      </div>
+    </div>
+    <div class="container-table">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Logo</th>
+            <th>Nombre del producto</th>
+            <th>Descripción</th>
+            <th>Fecha de liberación</th>
+            <th>Fecha de reestructuración</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- <tr *ngFor="let product of filterProducts | slice:0:itemsPerPage"> -->
+            <tr *ngFor="let product of filterProducts">
+            <td>{{ product.logo }}</td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.date_release }}</td>
+            <td>{{ product.date_revision }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>{{ filterProducts.length }} Resultados</p>
+    </div>
+  </div>
+
+
+</div>
