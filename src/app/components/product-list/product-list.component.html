@@ -3,11 +3,10 @@
   <div class="container-body">
     <div class="contaider-filter">
       <div class="container-input">
-        <input type="text" [(ngModel)]="searchProduct" placeholder="Search..." class="form-input"/>
-        <!-- <input type="text" [(ngModel)]="searchProduct" placeholder="Search..." (input)="filterProducts()" class="form-input"/> -->
+        <input type="text" [(ngModel)]="searchProduct" placeholder="Search..." (input)="searchProducts()" class="form-input-search"/>
       </div>
       <div class="container-button">
-        <input type="button" placeholder="Agregar" class="btn-add-product"/>
+        <input type="button" value="Agregar" class="btn-add-product" (click)="addProduct()"/>
       </div>
     </div>
     <div class="container-table">
@@ -16,24 +15,41 @@
           <tr>
             <th>Logo</th>
             <th>Nombre del producto</th>
-            <th>Descripción</th>
-            <th>Fecha de liberación</th>
-            <th>Fecha de reestructuración</th>
+            <th>Descripción <span class="info-icon">i</span></th>
+            <th>Fecha de liberación <span class="info-icon">i</span></th>
+            <th>Fecha de reestructuración <span class="info-icon">i</span></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
-          <!-- <tr *ngFor="let product of filterProducts | slice:0:itemsPerPage"> -->
-            <tr *ngFor="let product of filterProducts">
-            <td>{{ product.logo }}</td>
+            <tr *ngIf="filterProducts.length === 0">
+              <td colspan="5" class="no-results">No hay registros disponibles.</td>
+            </tr>
+            <tr *ngFor="let product of filterProducts | slice:0:itemsPerPage">
+            <td><img [src]="product.logo" alt="Logo" class="logo"></td>
             <td>{{ product.name }}</td>
+            <td>{{ product.description }}</td>
             <td>{{ product.date_release }}</td>
             <td>{{ product.date_revision }}</td>
+            <td>
+              <div class="dropdown">
+                <button class="dropdown-button" (click)="toggleDropdown(product.id)">
+                  <p class="dots">...</p>
+                </button>
+                <ul class="dropdown-menu" *ngIf="selectedDropdown === product.id">
+                  <li><a (click)="editProduct(product.id)">Editar</a></li>
+                </ul>
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>
-      <p>{{ filterProducts.length }} Resultados</p>
+      <div class="pagination">
+        <span>{{ filterProducts.length }} Resultados</span>
+        <select [(ngModel)]="itemsPerPage" (change)="searchProducts()">
+          <option *ngFor="let option of [5, 10, 20]" [value]="option">{{ option }}</option>
+        </select>
+      </div>
     </div>
   </div>
-
-
 </div>

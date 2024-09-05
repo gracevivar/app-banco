@@ -10,16 +10,21 @@ export class ProductsService {
 
   private url = 'http://localhost:3002';
   private apiUrl = '/bp/products';
-
+  private headers = { 'Content-Type': 'application/json' };
   constructor(private http: HttpClient) { }
   getListProducts(): Observable<Product[]>{
     return this.http.get<Product[]>(`${this.apiUrl}`);
-    // return this.http.get(`${this.url}${this.apiUrl}`, {responseType: 'text'})
   }
-  createProduct(form: Product):Observable<Product>{
-    return this.http.post<Product>(`${this.apiUrl}`, form);
+  checkIdProduct(idProduct:string): Observable<{exists: boolean}>{
+    return this.http.get<{exists: boolean}>(`${this.apiUrl}/verification/${idProduct}`);
+  }
+  createProduct(form:any):Observable<{}>{
+    return this.http.post<{}>(`${this.apiUrl}`, form, {headers: this.headers });
   }
   updateProduct(form: Product, idProduct: string):Observable<Product>{
     return this.http.put<Product>(`${this.apiUrl}/${idProduct}`, form);
+  }
+  getProducyById(idProduct:string): Observable<Product>{
+    return this.http.get<Product>(`${this.apiUrl}/${idProduct}`);
   }
 }
